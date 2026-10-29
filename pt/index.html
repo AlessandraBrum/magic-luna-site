@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-animacoes="ligadas">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'self'; object-src 'none'">
+
+  <title>Magic Luna · Conversor de PNG para WebP privado para Windows</title>
+  <meta name="description"
+    content="Converta PNG para WebP sem perder qualidade, direto no seu computador. Gratuito, offline e de código aberto. Suas imagens nunca saem do seu dispositivo.">
+  <meta name="author" content="Alessandra Brum">
+  <meta name="theme-color" content="#120D18">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Magic Luna">
+  <meta property="og:url" content="https://magicluna.alessandrabrum.com/pt/">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="Magic Luna · Conversor de PNG para WebP privado">
+  <meta property="og:description"
+    content="Converta PNG para WebP sem perder qualidade, direto no seu computador. Suas imagens nunca saem do seu dispositivo.">
+  <meta property="og:image"
+    content="https://magicluna.alessandrabrum.com/assets/img/preview-redes-sociais.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Magic Luna. Imagens mais leves. A mesma magia. Conversor de PNG para WebP privado.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Magic Luna · Conversor de PNG para WebP privado">
+  <meta name="twitter:description"
+    content="Converta PNG para WebP sem perder qualidade, direto no seu computador. Suas imagens nunca saem do seu dispositivo.">
+  <meta name="twitter:image"
+    content="https://magicluna.alessandrabrum.com/assets/img/preview-redes-sociais.jpg">
+  <meta name="twitter:image:alt" content="Magic Luna. Imagens mais leves. A mesma magia. Conversor de PNG para WebP privado.">
+
+  <link rel="alternate" hreflang="en" href="https://magicluna.alessandrabrum.com/">
+  <link rel="alternate" hreflang="pt-BR" href="https://magicluna.alessandrabrum.com/pt/">
+  <link rel="alternate" hreflang="x-default" href="https://magicluna.alessandrabrum.com/">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+  <link rel="preload" href="../assets/fonts/playfair-display-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2"
+    crossorigin>
+
+  <link rel="stylesheet" href="../css/estilos.css">
+  <script src="../js/script.js" defer></script>
+</head>
+
+<body>
+
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="degrade-lua" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#E85A8C" />
+        <stop offset="1" stop-color="#7A2FBE" />
+      </linearGradient>
+      <linearGradient id="degrade-brilho" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#F5B8DA" />
+        <stop offset="1" stop-color="#C9B3F0" />
+      </linearGradient>
+      <mask id="mascara-lua">
+        <rect width="24" height="24" fill="#fff" />
+        <circle cx="16.5" cy="7.5" r="7.2" fill="#000" />
+      </mask>
+    </defs>
+    <symbol id="icone-lua" viewBox="0 0 24 24">
+      <circle cx="11" cy="13" r="9.5" fill="url(#degrade-lua)" mask="url(#mascara-lua)" />
+    </symbol>
+    <symbol id="icone-brilho" viewBox="0 0 24 24">
+      <path d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z"
+        fill="url(#degrade-brilho)" />
+    </symbol>
+  </svg>
+
+
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+
+  <div class="ceu" aria-hidden="true">
+    <div class="nevoa nevoa-1"></div>
+    <div class="nevoa nevoa-2"></div>
+    <div class="nevoa nevoa-3"></div>
+    <div class="estrelas" id="estrelas"></div>
+    <span class="estrela-cadente"></span>
+  </div>
+
+
+  <header class="topo" id="topo" tabindex="-1">
+    <div class="topo-conteudo">
+
+      <a class="logo" href="#conteudo">
+        <svg class="logo-lua" aria-hidden="true" focusable="false">
+          <use href="#icone-lua" />
+        </svg>
+        <span class="logo-texto" translate="no">Magic Luna</span>
+      </a>
+
+      <button class="botao-menu" id="botao-menu" type="button" aria-expanded="false" aria-controls="menu-principal">
+        <span class="sr-only">Abrir menu</span>
+        <span class="botao-menu-linhas" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+
+      <div class="menu-fundo" id="menu-fundo" hidden></div>
+
+      <nav class="menu" id="menu-principal" aria-label="Principal">
+        <button class="botao-fechar" id="botao-fechar" type="button">
+          <span class="sr-only">Fechar menu</span>
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+
+        <ul class="menu-links">
+          <li><a href="#privacidade">Privacidade</a></li>
+          <li><a href="#webp">Por que WebP</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#duvidas">Dúvidas</a></li>
+        </ul>
+
+        <div class="menu-controles">
+          <a class="botao-controle" href="../" hreflang="en" lang="en">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z" />
+            </svg>
+            <span>English</span>
+          </a>
+
+          <button class="botao-controle" id="botao-animacoes" type="button" aria-pressed="true">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path
+                d="M12 2.5c.6 5 3.3 7.8 8.5 8.5-5.2.7-7.9 3.5-8.5 8.5-.6-5-3.3-7.8-8.5-8.5 5.2-.7 7.9-3.5 8.5-8.5z" />
+            </svg>
+            <span><span>Animações</span>: <span id="botao-animacoes-estado">Ligadas</span></span>
+            <span class="sr-only" id="botao-animacoes-sistema"></span>
+          </button>
+        </div>
+
+        <a class="botao botao-contorno menu-baixar" href="#baixar">Baixar</a>
+      </nav>
+
+    </div>
+  </header>
+
+
+  <main id="conteudo" tabindex="-1">
+
+    <section class="hero" aria-labelledby="hero-titulo">
+      <div class="container hero-grade">
+
+        <div class="hero-texto">
+          <p class="sobretitulo">Conversor de imagens privado</p>
+
+          <h1 class="hero-titulo" id="hero-titulo">
+            <span class="linha">Imagens mais leves.</span>
+            <span class="linha">A mesma <em class="destaque">magia</em>.</span>
+          </h1>
+
+          <p class="hero-chamada">Converta PNG para WebP sem perder qualidade, direto no seu computador. Suas imagens nunca
+            saem do seu dispositivo, e suas conversões continuam privadas.</p>
+
+
+          <a class="botao botao-principal"
+            href="https://github.com/AlessandraBrum/magic-luna-image-converter/releases/latest/download/MagicLuna.exe" target="_blank" rel="noopener noreferrer">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M12 3v12M7 10l5 5 5-5M4 20h16" />
+            </svg>
+            <span>Baixar para Windows</span><span class="sr-only"> (abre em uma nova janela)</span>
+          </a>
+
+          <a class="link-seta" href="https://github.com/AlessandraBrum/magic-luna-image-converter/releases/tag/v1.0.0"
+            target="_blank" rel="noopener noreferrer">
+            <span class="link-texto">Notas da versão no GitHub</span><span class="sr-only"> (abre em uma nova janela)</span>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M7 17L17 7M9 7h8v8" />
+            </svg>
+          </a>
+
+          <p class="hero-detalhes">Gratuito · Windows 10 e 11 (64 bits) · Versão&nbsp;1.0.0 · 20&nbsp;MB</p>
+
+          <ul class="selos" aria-label="Destaques">
+
+            <li><svg aria-hidden="true" focusable="false">
+                <use href="#icone-brilho" />
+              </svg><span>Funciona offline</span></li>
+
+            <li><svg aria-hidden="true" focusable="false">
+                <use href="#icone-brilho" />
+              </svg><span>Sem cadastro</span></li>
+
+            <li><svg aria-hidden="true" focusable="false">
+                <use href="#icone-brilho" />
+              </svg><span>Sem upload</span></li>
+
+          </ul>
+        </div>
+
+        <div class="hero-visual">
+          <div class="lua-grande" aria-hidden="true"></div>
+          <svg class="brilho brilho-1" aria-hidden="true" focusable="false">
+            <use href="#icone-brilho" />
+          </svg>
+          <svg class="brilho brilho-2" aria-hidden="true" focusable="false">
+            <use href="#icone-brilho" />
+          </svg>
+          <svg class="brilho brilho-3" aria-hidden="true" focusable="false">
+            <use href="#icone-brilho" />
+          </svg>
+
+          <div class="hero-janela">
+            <img class="hero-print" src="../assets/img/magic-luna-app.webp" width="644" height="633"
+              alt="Janela do app Magic Luna: fundo roxo escuro, uma lua em degradê de rosa para roxo com estrelas, o título Image converter, um botão Select file e um botão Convert to WebP. Rodapé: Developed by Alessandra Brum.">
+            <a class="hero-print-link" href="https://www.alessandrabrum.com" target="_blank" rel="noopener noreferrer"
+              translate="no">Alessandra Brum<span class="sr-only"> (portfólio, abre em uma nova janela)</span></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <div class="divisor" aria-hidden="true">
+      <svg focusable="false">
+        <use href="#icone-brilho" />
+      </svg>
+    </div>
+
+
+    <section class="secao" id="privacidade" aria-labelledby="privacidade-titulo">
+      <div class="container">
+
+        <div class="secao-cabecalho revelar">
+          <h2 class="secao-titulo" id="privacidade-titulo">Suas imagens ficam com você.</h2>
+          <p class="sobretitulo">Privacidade em primeiro lugar</p>
+          <p class="secao-intro">A maioria dos conversores online, e muitas ferramentas de IA, envia seus arquivos para o servidor
+            de outra pessoa para processá-los. O Magic Luna faz todo o trabalho no seu próprio computador: nada é enviado,
+            nada fica guardado e ninguém mais vê suas imagens.</p>
+        </div>
+
+        <ul class="cartoes">
+          <li class="cartao revelar">
+            <svg class="cartao-icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="12" rx="2" />
+              <path d="M8 20h8M12 16v4" />
+            </svg>
+            <h3>100% no seu computador</h3>
+            <p>A conversão acontece do começo ao fim na sua máquina. O app nunca envia suas imagens, nem qualquer outra
+              coisa, pela internet.</p>
+          </li>
+          <li class="cartao revelar">
+            <svg class="cartao-icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+            <h3>Nenhuma IA no meio do caminho</h3>
+            <p>Seus arquivos nunca são enviados para um serviço de IA e nunca são usados para treinar nenhum modelo.</p>
+          </li>
+          <li class="cartao revelar">
+            <svg class="cartao-icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z" />
+              <circle cx="12" cy="12" r="2.5" />
+              <path d="M4 4l16 16" />
+            </svg>
+            <h3>Sem conta, sem rastreamento</h3>
+            <p>Sem cadastro, sem anúncios, sem métricas. Nem no app, nem neste site.</p>
+          </li>
+          <li class="cartao revelar">
+            <svg class="cartao-icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" />
+            </svg>
+            <h3>Código aberto</h3>
+            <p>
+              <span>Todo o código-fonte é público, então qualquer pessoa pode conferir exatamente o que o Magic Luna faz.</span>
+              <a class="link-seta" href="https://github.com/AlessandraBrum/magic-luna-image-converter" target="_blank"
+                rel="noopener noreferrer">
+                <span class="link-texto">Ver o código no GitHub</span><span class="sr-only"> (abre em uma nova janela)</span>
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </a>
+            </p>
+          </li>
+        </ul>
+
+        <figure class="citacao revelar">
+          <blockquote>
+            <p class="citacao-titulo">Feito para trabalhos confidenciais.</p>
+            <p>Projetos de clientes sob NDA, marcas ainda não lançadas, prints internos, registros de arquivo. Quando as
+              imagens são confidenciais, elas não deveriam precisar sair do seu computador para serem otimizadas. Com o
+              Magic Luna, elas não saem: sem upload, sem IA e sem terceiros envolvidos.</p>
+          </blockquote>
+        </figure>
+
+      </div>
+    </section>
+
+
+    <section class="secao secao-destacada" id="webp" aria-labelledby="webp-titulo">
+      <div class="container webp-grade">
+
+        <div class="secao-cabecalho revelar">
+          <h2 class="secao-titulo" id="webp-titulo">Imagens mais leves, páginas mais rápidas.</h2>
+          <p class="sobretitulo">Desempenho</p>
+          <p class="secao-intro">Para quem cria ou desenvolve para a web, o peso das imagens é desempenho. PNGs pesados
+            deixam os sites lentos, prejudicam os Core Web Vitals e gastam os dados móveis de quem visita.</p>
+
+          <figure class="comparacao">
+            <div class="comparacao-linha">
+              <span class="comparacao-nome">PNG</span>
+              <span class="comparacao-barra" aria-hidden="true"><span></span></span>
+            </div>
+            <div class="comparacao-linha">
+              <span class="comparacao-nome">WebP</span>
+              <span class="comparacao-barra comparacao-barra-webp" aria-hidden="true"><span></span></span>
+            </div>
+            <figcaption>
+              <span>Segundo o Google, imagens WebP sem perdas são, em média, 26% menores que PNGs.</span>
+              <a class="link-seta" href="https://developers.google.com/speed/webp" target="_blank"
+                rel="noopener noreferrer">
+                <span class="link-texto">Fonte: Google</span><span class="sr-only"> (abre em uma nova janela)</span>
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </a>
+            </figcaption>
+          </figure>
+        </div>
+
+        <ul class="lista-vantagens">
+          <li class="revelar">
+            <svg aria-hidden="true" focusable="false">
+              <use href="#icone-brilho" />
+            </svg>
+            <div>
+              <h3>Arquivos mais leves</h3>
+              <p>
+                <span>Guarda milhares de imagens? Segundo o Google, arquivos WebP sem perdas são, em média, 26% menores
+                  que PNGs. Os resultados variam.</span>
+                <a class="link-seta" href="https://developers.google.com/speed/webp" target="_blank"
+                  rel="noopener noreferrer">
+                  <span class="link-texto">Fonte: Google</span><span class="sr-only"> (abre em uma nova janela)</span>
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
+              </p>
+            </div>
+          </li>
+
+
+          <li class="revelar">
+            <svg aria-hidden="true" focusable="false">
+              <use href="#icone-brilho" />
+            </svg>
+            <div>
+              <h3>Confiável para documentação</h3>
+              <p>
+                O <span><a href="https://godotengine.org" target="_blank" rel="noopener noreferrer"><span
+                      translate="no">Godot</span><span class="sr-only"> (abre em uma nova janela)</span></a>, um dos motores de jogos de
+                  código aberto mais populares, usa WebP em todas as imagens da
+                  documentação oficial, com compressão sem perdas sempre que possível.</span>
+                <a class="link-seta"
+                  href="https://contributing.godotengine.org/en/latest/documentation/guidelines/docs_image_guidelines.html"
+                  target="_blank" rel="noopener noreferrer">
+                  <span class="link-texto">Fonte: diretrizes do Godot</span><span class="sr-only"> (abre em uma nova janela)</span>
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
+              </p>
+            </div>
+          </li>
+
+
+
+
+          <li class="revelar">
+            <svg aria-hidden="true" focusable="false">
+              <use href="#icone-brilho" />
+            </svg>
+            <div>
+              <h3>A mesma qualidade, pixel por pixel</h3>
+              <p>
+                <span>O Magic Luna usa compressão sem perdas, então a imagem fica idêntica à original.</span>
+                <a class="link-seta" href="https://developers.google.com/speed/webp" target="_blank"
+                  rel="noopener noreferrer">
+                  <span class="link-texto">Ver o estudo do Google</span><span class="sr-only"> (abre em uma nova janela)</span>
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
+              </p>
+            </div>
+          </li>
+
+
+          <li class="revelar">
+            <svg aria-hidden="true" focusable="false">
+              <use href="#icone-brilho" />
+            </svg>
+            <div>
+              <h3>Transparência mantida</h3>
+              <p>Fundos transparentes continuam transparentes, igual ao seu PNG.</p>
+            </div>
+          </li>
+
+
+
+          <li class="revelar">
+            <svg aria-hidden="true" focusable="false">
+              <use href="#icone-brilho" />
+            </svg>
+            <div>
+              <h3>Funciona em todo lugar</h3>
+              <p>Todos os navegadores modernos exibem imagens WebP.</p>
+            </div>
+          </li>
+
+
+
+        </ul>
+
+      </div>
+    </section>
+
+
+    <section class="secao" id="como-funciona" aria-labelledby="como-titulo">
+      <div class="container">
+
+        <div class="secao-cabecalho secao-cabecalho-centro revelar">
+          <h2 class="secao-titulo" id="como-titulo">Simples do começo ao fim.</h2>
+          <p class="sobretitulo">Como funciona</p>
+        </div>
+
+
+        <div class="passos-grade">
+          <ol class="passos">
+            <li class="passo revelar">
+              <svg class="passo-icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                <path d="M14 3v5h5M9 13h6M9 17h6" />
+              </svg>
+              <h3>Escolha seu PNG</h3>
+              <p>Clique em <strong translate="no">Select file</strong>, ou aperte <kbd translate="no">Ctrl</kbd>+<kbd
+                  translate="no">O</kbd>, e escolha uma imagem no seu computador.</p>
+            </li>
+            <li class="passo revelar">
+              <svg class="passo-icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="M20 11a8 8 0 0 0-14.6-4.5M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5M20 20v-4h-4" />
+              </svg>
+              <h3>Converta para WebP</h3>
+              <p>Clique em <strong translate="no">Convert to WebP</strong>, ou aperte <kbd translate="no">Enter</kbd>.
+                Leva só um instante.</p>
+            </li>
+            <li class="passo revelar">
+              <svg class="passo-icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              </svg>
+              <h3>Encontre na mesma pasta</h3>
+              <p>Seu WebP é salvo ao lado do PNG original, que continua intacto.</p>
+            </li>
+          </ol>
+
+          <div class="passo passo-futuro revelar">
+            <span class="passo-futuro-topo"><span class="em-breve-selo">Em breve</span></span>
+            <h3>Mais formatos a caminho!</h3>
+            <p>Em breve, o app vai converter outros formatos de imagem. Sua opinião é bem-vinda.</p>
+          </div>
+        </div>
+
+        <p class="nota-acessivel revelar">Pensado com acessibilidade. O app e este site têm cores de alto contraste,
+          texto grande e navegação pelo teclado.
+        </p>
+
+      </div>
+    </section>
+
+
+    <section class="secao secao-baixar" id="baixar" aria-labelledby="baixar-titulo">
+      <div class="container">
+
+        <div class="baixar-cartao revelar">
+          <svg class="baixar-lua" aria-hidden="true" focusable="false">
+            <use href="#icone-lua" />
+          </svg>
+          <h2 class="secao-titulo" id="baixar-titulo">Quer experimentar?</h2>
+          <p class="secao-intro">Gratuito, leve e privado. Baixe, abra e comece a converter.</p>
+
+          <a class="botao botao-principal"
+            href="https://github.com/AlessandraBrum/magic-luna-image-converter/releases/latest/download/MagicLuna.exe" target="_blank" rel="noopener noreferrer">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M12 3v12M7 10l5 5 5-5M4 20h16" />
+            </svg>
+            <span>Baixar para Windows</span><span class="sr-only"> (abre em uma nova janela)</span>
+          </a>
+
+          <p class="hero-detalhes">Gratuito · Windows 10 e 11 (64 bits) · Versão&nbsp;1.0.0 · 20&nbsp;MB</p>
+
+          <a class="link-seta" href="https://github.com/AlessandraBrum/magic-luna-image-converter/releases/tag/v1.0.0"
+            target="_blank" rel="noopener noreferrer">
+            <span class="link-texto">Notas da versão no GitHub</span><span class="sr-only"> (abre em uma nova janela)</span>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M7 17L17 7M9 7h8v8" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="aviso revelar">
+          <h3 class="aviso-titulo">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" />
+              <path d="M12 8v5M12 16.5v.5" />
+            </svg>
+            <span>Sobre o aviso de segurança do Windows</span>
+          </h3>
+          <p>O Magic Luna é um app independente e ainda não tem assinatura digital. Por isso, o Windows e o navegador
+            podem mostrar um aviso na primeira vez. Isso é esperado e não significa que o app seja perigoso.</p>
+          <ul class="aviso-lista">
+            <li>Se o navegador disser que o arquivo <strong>“não é baixado com frequência”</strong>: abra a lista de
+              downloads, clique nos três pontinhos ao lado do arquivo e escolha <strong>Manter</strong>.</li>
+            <li>Se o Windows mostrar <strong>“O Windows protegeu o computador”</strong>: clique em <strong>Mais
+              informações</strong> e depois em <strong>Executar assim mesmo</strong>. Você só precisa fazer isso uma vez.
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section class="secao" id="duvidas" aria-labelledby="duvidas-titulo">
+      <div class="container container-estreito">
+
+        <div class="secao-cabecalho secao-cabecalho-centro revelar">
+          <h2 class="secao-titulo" id="duvidas-titulo">Perguntas frequentes</h2>
+        </div>
+
+        <div class="perguntas revelar">
+          <details name="duvidas">
+            <summary>O Magic Luna é gratuito?</summary>
+            <p>Sim. É gratuito para baixar e usar.</p>
+          </details>
+          <details name="duvidas">
+            <summary>Preciso instalar alguma coisa?</summary>
+            <p>Não. Baixe o MagicLuna.exe e abra. Tudo o que ele precisa já está dentro do arquivo.</p>
+          </details>
+          <details name="duvidas">
+            <summary>Para onde vão minhas imagens?</summary>
+            <p>Para lugar nenhum. O Magic Luna lê o PNG e salva o WebP no seu próprio computador. Nada é enviado nem
+              compartilhado.</p>
+          </details>
+          <details name="duvidas">
+            <summary>Meu PNG original é alterado ou apagado?</summary>
+            <p>Não. O Magic Luna cria um WebP novo na mesma pasta e deixa o PNG exatamente como estava. Se já existir
+              um WebP com o mesmo nome, ele é substituído.</p>
+          </details>
+          <details name="duvidas">
+            <summary>Funciona no Mac ou no Linux?</summary>
+            <p>Ainda não. A versão 1.0 funciona no Windows 10 e 11 (64 bits).</p>
+          </details>
+          <details name="duvidas">
+            <summary>Quais formatos ele converte?</summary>
+            <p>A versão 1.0 converte imagens PNG para WebP. Outros formatos vão chegar nas próximas versões, sempre
+              convertidos localmente, direto no seu computador.</p>
+          </details>
+          <details name="duvidas">
+            <summary>Quem criou o Magic Luna?</summary>
+            <p>
+              <span>Alessandra Brum é desenvolvedora front-end com foco em UX, que se importa com privacidade e acessibilidade.</span>
+              <a class="link-seta" href="https://www.alessandrabrum.com" target="_blank" rel="noopener noreferrer">
+                <span class="link-texto">Visite o site dela</span><span class="sr-only"> (abre em uma nova janela)</span>
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </a>
+            </p>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="voltar-topo-trilho">
+      <button class="voltar-topo" id="voltar-topo" type="button" hidden>
+        <span class="sr-only">Voltar ao topo</span>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+          <path d="M12 19V5M5 12l7-7 7 7" />
+        </svg>
+      </button>
+    </div>
+
+  </main>
+
+
+  <footer class="rodape">
+    <div class="container rodape-conteudo">
+
+      <a class="logo" href="#conteudo">
+        <svg class="logo-lua" aria-hidden="true" focusable="false">
+          <use href="#icone-lua" />
+        </svg>
+        <span class="logo-texto" translate="no">Magic Luna</span>
+      </a>
+
+      <ul class="rodape-links">
+        <li>
+          <span>Desenvolvido por</span>
+          <a href="https://www.alessandrabrum.com" target="_blank" rel="noopener noreferrer">Alessandra Brum<span
+              class="sr-only"> (abre em uma nova janela)</span></a>
+        </li>
+        <li>
+          <a href="https://www.alessandrabrum.com" target="_blank" rel="noopener noreferrer"><span>Site e
+              portfólio</span><span class="sr-only"> (abre em uma nova janela)</span></a>
+        </li>
+        <li>
+          <a href="https://github.com/AlessandraBrum/magic-luna-image-converter" target="_blank"
+            rel="noopener noreferrer"><span>Código-fonte no GitHub</span><span class="sr-only"> (abre em uma nova janela)</span></a>
+        </li>
+      </ul>
+
+      <ul class="rodape-redes" aria-label="Redes sociais">
+        <li><a href="https://www.alessandrabrum.com/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg><span class="sr-only">Site da Alessandra Brum (abre em uma nova janela)</span></a></li>
+        <li><a href="https://linkedin.com/in/AlessandraBrum" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"> <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /> </svg><span class="sr-only">LinkedIn (abre em uma nova janela)</span></a></li>
+        <li><a href="https://github.com/AlessandraBrum" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"> <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /> </svg><span class="sr-only">GitHub (abre em uma nova janela)</span></a></li>
+        <li><a href="https://www.behance.net/alessandrabrum" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"> <path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.67.767-.61.165-1.252.254-1.91.254H0V4.51h6.938v-.007zM16.94 16.665c.44.428 1.073.643 1.894.643.59 0 1.1-.148 1.53-.447.424-.29.68-.61.78-.94h2.588c-.403 1.28-1.048 2.2-1.9 2.75-.85.56-1.884.83-3.08.83-.837 0-1.584-.13-2.272-.4-.673-.27-1.24-.65-1.72-1.14-.464-.49-.823-1.08-1.077-1.77-.253-.69-.373-1.45-.373-2.27 0-.803.135-1.54.403-2.23.27-.7.644-1.28 1.12-1.79.495-.51 1.063-.895 1.736-1.194s1.4-.433 2.22-.433c.91 0 1.69.164 2.38.523.67.34 1.22.82 1.66 1.4.44.586.75 1.26.94 2.02.19.75.25 1.54.21 2.38h-7.69c0 .84.28 1.632.71 2.065l-.08.03zm-10.24.05c.317 0 .62-.03.906-.093.29-.06.548-.165.763-.3.21-.135.39-.328.52-.583.13-.24.19-.57.19-.96 0-.75-.22-1.29-.64-1.62-.43-.32-.99-.48-1.69-.48H3.24v4.05H6.7v-.03zm13.607-5.65c-.352-.385-.94-.592-1.657-.592-.468 0-.855.074-1.166.238-.302.163-.55.364-.74.6-.19.24-.317.48-.392.75-.075.26-.12.5-.135.71h4.762c-.07-.75-.33-1.3-.68-1.69v.01zM6.52 10.45c.574 0 1.05-.135 1.425-.41.374-.27.554-.72.554-1.33 0-.34-.06-.62-.18-.84-.12-.21-.29-.38-.49-.5-.21-.12-.44-.21-.71-.25-.26-.05-.54-.07-.82-.07H3.24v3.4h3.28zm9.98-4.48h5.968v1.45H16.5V5.97z" /> </svg><span class="sr-only">Behance (abre em uma nova janela)</span></a></li>
+      </ul>
+
+      <p class="rodape-direitos">© 2026 Alessandra Brum. O <span translate="no">Magic Luna</span> tem código aberto.</p>
+
+    </div>
+  </footer>
+
+
+</body>
+
+</html>

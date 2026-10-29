@@ -19,82 +19,11 @@ function salvarPreferencia(chave, valor) {
 }
 
 
-const ENDERECO_GOOGLE = "https://translate.google.com/translate_a/element.js?cb=iniciarGoogleTradutor";
-let tradutorCarregando = false;
+const emPortugues = html.lang === "pt-BR";
 
-function paginaEstaEmPortugues() {
-  return /(^|;\s*)googtrans=\/en\/pt/.test(document.cookie);
-}
-
-window.iniciarGoogleTradutor = function () {
-  new window.google.translate.TranslateElement({
-    pageLanguage: "en",
-    includedLanguages: "pt",
-    autoDisplay: false
-  }, "google_translate_element");
-};
-
-function carregarGoogleTradutor() {
-  if (tradutorCarregando) {
-    return;
-  }
-  tradutorCarregando = true;
-  const script = document.createElement("script");
-  script.src = ENDERECO_GOOGLE;
-  script.async = true;
-  document.body.appendChild(script);
-}
-
-function traduzirParaPortugues() {
-  carregarGoogleTradutor();
-  let tentativas = 0;
-  const espera = window.setInterval(function () {
-    const seletor = document.querySelector(".goog-te-combo");
-    tentativas += 1;
-    if (seletor && seletor.options.length > 1) {
-      window.clearInterval(espera);
-      seletor.value = "pt";
-      seletor.dispatchEvent(new Event("change"));
-      atualizarBotaoIdioma(true);
-    } else if (tentativas > 50) {
-      window.clearInterval(espera);
-    }
-  }, 200);
-}
-
-function voltarParaIngles() {
-  const dominio = window.location.hostname;
-  const apagar = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-  document.cookie = apagar;
-  if (dominio) {
-    document.cookie = apagar + "; domain=" + dominio;
-    document.cookie = apagar + "; domain=." + dominio;
-  }
-  window.location.reload();
-}
-
-function atualizarBotaoIdioma(emPortugues) {
-  const texto = document.getElementById("botao-idioma-texto");
-  texto.textContent = emPortugues ? "English" : "Português";
-  texto.lang = emPortugues ? "en" : "pt-BR";
-}
-
-function iniciarTraducao() {
-  const botao = document.getElementById("botao-idioma");
-
-  botao.addEventListener("click", function () {
-    if (paginaEstaEmPortugues()) {
-      voltarParaIngles();
-    } else {
-      traduzirParaPortugues();
-    }
-  });
-
-  if (paginaEstaEmPortugues()) {
-    carregarGoogleTradutor();
-    atualizarBotaoIdioma(true);
-  }
-}
+const TEXTOS = emPortugues
+  ? { ligadas: "Ligadas", desligadas: "Desligadas", sistema: " (seu dispositivo está configurado para reduzir movimento)" }
+  : { ligadas: "On", desligadas: "Off", sistema: " (your device is set to reduce motion)" };
 
 
 const sistemaReduzMovimento = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -110,11 +39,11 @@ function atualizarBotaoAnimacoes() {
   const ligadas = animacoesPermitidas();
 
   botao.setAttribute("aria-pressed", ligadas ? "true" : "false");
-  estado.textContent = ligadas ? "On" : "Off";
+  estado.textContent = ligadas ? TEXTOS.ligadas : TEXTOS.desligadas;
 
   if (sistemaReduzMovimento.matches) {
     botao.setAttribute("aria-disabled", "true");
-    avisoSistema.textContent = " (your device is set to reduce motion)";
+    avisoSistema.textContent = TEXTOS.sistema;
   } else {
     botao.removeAttribute("aria-disabled");
     avisoSistema.textContent = "";
@@ -390,7 +319,6 @@ function iniciarPerguntas() {
 
 document.addEventListener("DOMContentLoaded", function () {
   iniciarAnimacoes();
-  iniciarTraducao();
   iniciarPerguntas();
   criarEstrelas();
   iniciarMenu();

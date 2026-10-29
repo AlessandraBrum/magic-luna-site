@@ -43,7 +43,7 @@ O Magic Luna funciona 100% no seu computador: ele não se conecta à internet e 
 
 ## Website privacy
 
-This website has no analytics and no ads. Fonts and images are served from this repository, and a Content Security Policy blocks any outside script, except Google Translate. The page opens in English, and Google Translate is only loaded when the visitor clicks "Português". From then on, Google receives the page text to translate it and saves its own `googtrans` cookie with that choice. The animation choice is saved only in the visitor's own browser (localStorage).
+This website has no analytics, no ads and no outside scripts. Fonts and images are served from this repository, and a strict Content Security Policy blocks anything loaded from other sites. The animation choice is saved only in the visitor's own browser (localStorage).
 
 ## Accessibility
 
@@ -51,18 +51,19 @@ This website has no analytics and no ads. Fonts and images are served from this 
 - Full keyboard navigation, visible focus and a "Skip to content" link.
 - Text at 16 px or larger, touch targets at 44 px or larger.
 - Respects the system "reduce motion" setting, plus a button to turn animations off.
-- English by default, with a button that translates the page to Portuguese with Google Translate.
+- English by default, with a hand-written Brazilian Portuguese version at [/pt/](https://magicluna.alessandrabrum.com/pt/).
 
 ## Run website locally
 
-Open the folder in VS Code and start Live Server or Live Preview on `index.html`. Google Translate does not work when the file is opened directly (`file://`).
+Open the folder in VS Code and start Live Server or Live Preview on `index.html`.
 
 ## Structure
 
 ```
-index.html          page content (English is the main language)
+index.html          page content in English
+pt/index.html       the same page in Brazilian Portuguese
 css/estilos.css     styles, mobile first
-js/script.js        translation, animations, menu, stars, FAQ and back-to-top
+js/script.js        animations, menu, stars, FAQ and back-to-top
 assets/fonts/       Playfair Display and Atkinson Hyperlegible (SIL Open Font License)
 assets/img/         app screenshot and favicon
 ```

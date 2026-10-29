@@ -361,6 +361,7 @@ kbd {
   color: var(--cor-texto-suave);
   font-family: var(--fonte-texto);
   font-size: 1rem;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -1409,8 +1410,7 @@ kbd {
   height: 1.25rem;
 }
 
-.rodape-direitos,
-.rodape-traducao {
+.rodape-direitos {
   color: var(--cor-texto-suave);
   font-size: 1rem;
 }
@@ -1429,8 +1429,7 @@ kbd {
   }
 
   .rodape-redes,
-  .rodape-direitos,
-  .rodape-traducao {
+  .rodape-direitos {
     grid-column: 1 / -1;
   }
 
@@ -1495,25 +1494,6 @@ kbd {
   stroke-width: 2.25;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-
-.google-tradutor,
-.skiptranslate iframe,
-.goog-te-banner-frame,
-.goog-te-balloon-frame,
-#goog-gt-tt,
-.VIpgJd-ZVi9od-ORHb-OEVmcd {
-  display: none !important;
-}
-
-body {
-  top: 0 !important;
-}
-
-.goog-text-highlight {
-  background: none !important;
-  box-shadow: none !important;
 }
 
 
