@@ -4,9 +4,9 @@ Magic Luna is a downloadable app that converts PNG images to WebP, right on your
 
 This repository is the Magic Luna website (landing page).
 
-- [Download for Windows](https://github.com/AlessandraBrum/img-converter-png-to-webp/releases/latest/download/MagicLuna.exe)
-- [App source code](https://github.com/AlessandraBrum/img-converter-png-to-webp)
-- [Release notes](https://github.com/AlessandraBrum/img-converter-png-to-webp/releases)
+- [Download for Windows](https://github.com/AlessandraBrum/magic-luna-image-converter/releases/latest/download/MagicLuna.exe)
+- [App source code](https://github.com/AlessandraBrum/magic-luna-image-converter)
+- [Release notes](https://github.com/AlessandraBrum/magic-luna-image-converter/releases)
 
 <img width="644" height="633" alt="Magic Luna app screenshot: dark purple window with a pink to purple moon and stars logo, a file panel and a purple Convert to WebP button" src="https://github.com/user-attachments/assets/456b622e-342c-4ccc-9737-56f9ba8790c3" />
 
@@ -23,7 +23,7 @@ click the three dots next to the download and choose **Keep**.
 
 You only need to do this once.
 
-Magic Luna runs 100% on your computer: it does not connect to the internet and your images never leave your device. The full source code is open in the [app repository](https://github.com/AlessandraBrum/img-converter-png-to-webp), so anyone can check what it does.
+Magic Luna runs 100% on your computer: it does not connect to the internet and your images never leave your device. The full source code is open in the [app repository](https://github.com/AlessandraBrum/magic-luna-image-converter), so anyone can check what it does.
 
 ## ⚠️ Sobre o aviso de segurança do Windows
 
@@ -38,7 +38,7 @@ clique nos três pontinhos ao lado do download e escolha **Manter**.
 
 Você só precisa fazer isso uma vez.
 
-O Magic Luna funciona 100% no seu computador: ele não se conecta à internet e suas imagens nunca saem do seu dispositivo. O código-fonte completo está aberto no [repositório do app](https://github.com/AlessandraBrum/img-converter-png-to-webp), então qualquer pessoa pode conferir o que ele faz.
+O Magic Luna funciona 100% no seu computador: ele não se conecta à internet e suas imagens nunca saem do seu dispositivo. O código-fonte completo está aberto no [repositório do app](https://github.com/AlessandraBrum/magic-luna-image-converter), então qualquer pessoa pode conferir o que ele faz.
 
 ## Website privacy
 
@@ -52,7 +52,7 @@ This website has no analytics and no ads. Fonts and images are served from this 
 - Respects the system "reduce motion" setting, plus a button to turn animations off.
 - English by default, with a button that translates the page to Portuguese with Google Translate.
 
-## Run locally
+## Run website locally
 
 Open the folder in VS Code and start Live Server or Live Preview on `index.html`. Google Translate does not work when the file is opened directly (`file://`).
 
