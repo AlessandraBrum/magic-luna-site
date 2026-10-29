@@ -325,15 +325,17 @@ kbd {
   width: 100%;
   min-height: 3.75rem;
   background-color: var(--cor-botao);
+  background-image: linear-gradient(to bottom, #6E32C8, #42177E);
   color: #FFFFFF;
   font-size: 1.25rem;
-  box-shadow: 0 0 32px rgba(122, 47, 190, 0.45);
+  box-shadow: 0 0 32px rgba(255, 228, 242, 0.3);
 }
 
 .botao-principal:hover {
-  background-color: #6834BA;
+  background-color: #36116A;
+  background-image: linear-gradient(to bottom, #5E28B4, #36116A);
   color: #FFFFFF;
-  box-shadow: 0 0 44px rgba(232, 90, 140, 0.45);
+  box-shadow: 0 0 44px rgba(255, 228, 242, 0.45);
 }
 
 .botao-contorno {
