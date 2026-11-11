@@ -1,15 +1,15 @@
 # 🌙 Magic Luna
 
-Magic Luna is a downloadable app that converts PNG images to WebP, right on your computer. ✨
+Magic Luna is a private image converter for Windows. It converts images and PDFs between WebP, PNG, JPG, GIF, BMP, TIFF, ICO, AVIF and PDF, 100% on your computer: no uploads, no AI processing and no third parties. ✨
 
 This repository is the Magic Luna website (landing page).
 
 - [Website](https://magicluna.alessandrabrum.com/)
-- [Download for Windows](https://github.com/AlessandraBrum/magic-luna-image-converter/releases/latest/download/MagicLuna.exe)
+- [Download for Windows](https://github.com/AlessandraBrum/magic-luna-image-converter/releases/latest/download/Magic.Luna.-.Image.Converter.exe)
 - [App source code](https://github.com/AlessandraBrum/magic-luna-image-converter)
-- [Release notes](https://github.com/AlessandraBrum/magic-luna-image-converter/releases)
+- [Release notes](https://github.com/AlessandraBrum/magic-luna-image-converter/releases/tag/v1.2.0)
 
-<img width="644" height="633" alt="Magic Luna app screenshot: dark purple window with a pink to purple moon and stars logo, a file panel and a purple Convert to WebP button" src="https://github.com/user-attachments/assets/456b622e-342c-4ccc-9737-56f9ba8790c3" />
+<img width="644" height="566" alt="Magic Luna app screenshot: dark purple window with a pink to purple moon and stars logo, a file panel with a format menu and a purple Convert image button" src="assets/img/magic-luna-app.webp" />
 
 ## ⚠️ About the Windows security warning
 

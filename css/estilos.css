@@ -773,7 +773,7 @@ kbd {
 .hero-chamada {
   max-width: 34rem;
   color: var(--cor-lavanda);
-  font-size: clamp(1.25rem, 1vw + 1rem, 1.5rem);
+  font-size: clamp(1.125rem, 1vw + 0.875rem, 1.375rem);
   line-height: 1.5;
 }
 
@@ -850,15 +850,15 @@ kbd {
 
 .hero-print-link {
   position: absolute;
-  top: 95.1%;
-  left: 48.4%;
+  top: 95.6%;
+  left: 48.55%;
   transform: translateY(-50%);
   padding: 0.1em 0.5em 0.15em 0.2em;
   background-color: #16111C;
   color: var(--cor-link);
   font-family: "Segoe UI", var(--fonte-texto);
   font-size: 0.85rem;
-  font-size: 2.3cqi;
+  font-size: 2.06cqi;
   font-weight: 700;
   line-height: 1.2;
   white-space: nowrap;
@@ -1007,16 +1007,16 @@ kbd {
 }
 
 
-.webp-grade {
+.formatos-grade {
   display: grid;
   gap: 1rem;
 }
 
-.webp-grade .secao-cabecalho {
+.formatos-grade .secao-cabecalho {
   margin-bottom: 1rem;
 }
 
-.comparacao {
+.formatos {
   display: grid;
   gap: 0.75rem;
   margin: 1rem 0 0;
@@ -1026,57 +1026,25 @@ kbd {
   background-color: rgba(18, 13, 24, 0.6);
 }
 
-.comparacao-linha {
-  display: grid;
-  grid-template-columns: 4rem 1fr;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.comparacao-nome {
+.formatos-titulo {
   color: var(--cor-texto);
   font-weight: 700;
 }
 
-.comparacao-barra {
-  display: block;
-  height: 0.875rem;
-  border-radius: 999px;
-  background-color: var(--cor-painel);
+.formatos-lista {
+  display: flex;
+  grid-template-columns: repeat(3, max-content);
+  gap: 0.5rem;
 }
 
-.comparacao-barra span {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background-color: var(--cor-borda-forte);
-}
-
-.comparacao-barra-webp span {
-  width: 74%;
-  background: linear-gradient(90deg, var(--cor-lua-rosa), var(--cor-lua-roxo));
-  box-shadow: 0 0 16px rgba(232, 90, 140, 0.45);
-}
-
-.comparacao figcaption {
-  display: grid;
-  justify-items: start;
-  gap: 0.25rem;
-  margin-top: 0.5rem;
-  color: var(--cor-texto-suave);
-  font-size: 1rem;
-}
-
-.em-breve-selo {
+.formatos-lista li {
   padding: 0.25rem 0.75rem;
-  border: 1px solid var(--cor-rosa);
+  border: 1px solid var(--cor-borda-forte);
   border-radius: 999px;
-  color: var(--cor-rosa);
+  color: var(--cor-texto);
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  text-align: center;
 }
 
 .lista-vantagens {
@@ -1107,14 +1075,20 @@ kbd {
   color: var(--cor-texto-suave);
 }
 
+@media (min-width: 36em) {
+  .formatos-lista {
+    grid-template-columns: repeat(5, max-content);
+  }
+}
+
 @media (min-width: 60em) {
-  .webp-grade {
+  .formatos-grade {
     grid-template-columns: 1.1fr 0.9fr;
     gap: 5rem;
     align-items: center;
   }
 
-  .webp-grade .secao-cabecalho {
+  .formatos-grade .secao-cabecalho {
     margin-bottom: 0;
   }
 }
@@ -1128,6 +1102,7 @@ kbd {
 .passo {
   display: grid;
   justify-items: center;
+  align-content: start;
   gap: 0.75rem;
   text-align: center;
 }
@@ -1153,21 +1128,6 @@ kbd {
   color: var(--cor-texto-suave);
 }
 
-.passos-grade {
-  display: grid;
-  gap: 2.5rem;
-}
-
-.passos-grade .passo {
-  align-content: start;
-}
-
-.passo-futuro-topo {
-  display: grid;
-  place-items: center;
-  height: 4rem;
-}
-
 .nota-acessivel {
   max-width: 40rem;
   margin: 3.5rem auto 0;
@@ -1177,27 +1137,25 @@ kbd {
 
 @media (min-width: 56.25em) {
   .passos {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem 0;
   }
 
   .passo {
     padding-inline: 2rem;
   }
 
-  .passo + .passo {
+  .passo:nth-child(even) {
     border-left: 1px dashed var(--cor-borda-forte);
   }
 }
 
-@media (min-width: 64em) {
-  .passos-grade {
-    grid-template-columns: 3fr 1fr;
-    gap: 0;
+@media (min-width: 75em) {
+  .passos {
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .passo-futuro {
-    padding-inline: 2rem;
+  .passo + .passo {
     border-left: 1px dashed var(--cor-borda-forte);
   }
 }
