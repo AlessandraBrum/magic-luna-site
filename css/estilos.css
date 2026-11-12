@@ -1009,6 +1009,7 @@ kbd {
 
 .formatos-grade {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
 }
 
@@ -1032,7 +1033,7 @@ kbd {
 }
 
 .formatos-lista {
-  display: flex;
+  display: grid;
   grid-template-columns: repeat(3, max-content);
   gap: 0.5rem;
 }
