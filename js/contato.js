@@ -5,6 +5,7 @@ if (formulario) {
   const appPt = formulario.dataset.appPt ?? app;
   const TEXTOS = {
     pt: {
+      nomeVazio: "Informe seu nome.",
       telefoneInvalido: "Informe um número com o código do país e o DDD.",
       mensagemVazia: "Escreva sua mensagem.",
       preparando: "Preparando imagens…",
@@ -26,6 +27,7 @@ if (formulario) {
       },
     },
     en: {
+      nomeVazio: "Enter your name.",
       telefoneInvalido: "Enter a number with its country and area code.",
       mensagemVazia: "Write your message.",
       preparando: "Preparing images…",
@@ -52,6 +54,7 @@ if (formulario) {
   const textos = () => (document.documentElement.lang.startsWith("pt") ? TEXTOS.pt : TEXTOS.en);
 
   const campos = formulario.querySelector(".contato-campos");
+  const nome = formulario.querySelector("#contato-nome");
   const assunto = formulario.querySelector("#contato-assunto");
   const mensagem = formulario.querySelector("#contato-mensagem");
   const exemplo = formulario.querySelector("#contato-exemplo");
@@ -175,6 +178,7 @@ if (formulario) {
     desenharAnexos();
   });
 
+  nome.addEventListener("input", () => nome.setCustomValidity(""));
   assunto.addEventListener("change", atualizarExemplo);
   mensagem.addEventListener("input", () => {
     mensagem.setCustomValidity(mensagem.value && !mensagem.value.trim() ? textos().mensagemVazia : "");
@@ -193,6 +197,12 @@ if (formulario) {
     if (ocupado || adicionando) return;
 
     if (!fila) {
+      const nomeInformado = nome.value.trim();
+      if (!nomeInformado) {
+        nome.setCustomValidity(textos().nomeVazio);
+        nome.reportValidity();
+        return;
+      }
       const canal = canalAtual();
       const numero = telefone.value.trim().replace(/[\s().-]/g, "");
       if (canal === "whatsapp" && !TELEFONE.test(numero)) {
@@ -207,6 +217,7 @@ if (formulario) {
       const total = partesTexto.length + imagens.length;
       const partes = [...partesTexto, ...imagens].map((conteudo, indice) => {
         const parte = new FormData();
+        parte.set("nome", nomeInformado);
         parte.set("assunto", assunto.value);
         parte.set("canal", canal);
         parte.set("resposta", canal === "whatsapp" ? numero : email.value.trim());
