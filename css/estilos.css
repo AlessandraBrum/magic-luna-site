@@ -702,6 +702,31 @@ kbd {
   font-size: 1.25rem;
 }
 
+.video-moldura {
+  width: 100%;
+  margin: 0;
+}
+
+.video-promo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: 12px;
+  background-color: var(--cor-fundo);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(122, 47, 190, 0.35);
+}
+
+.video-detalhes {
+  margin-top: 1.25rem;
+  color: var(--cor-texto-suave);
+  font-size: 1rem;
+  text-align: center;
+}
+
 .divisor {
   display: flex;
   align-items: center;

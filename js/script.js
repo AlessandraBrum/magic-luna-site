@@ -317,6 +317,15 @@ function iniciarPerguntas() {
 }
 
 
+function iniciarVideo() {
+  document.querySelectorAll(".video-promo").forEach(function (video) {
+    video.addEventListener("ended", function () {
+      video.load();
+    });
+  });
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
   iniciarAnimacoes();
   iniciarPerguntas();
@@ -324,5 +333,6 @@ document.addEventListener("DOMContentLoaded", function () {
   iniciarMenu();
   iniciarRevelar();
   iniciarVoltarTopo();
+  iniciarVideo();
 });
 
