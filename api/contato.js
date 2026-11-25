@@ -1,3 +1,6 @@
+const SITE = 'Magic Luna'
+const REMETENTE = 'envio@lunasoftwares.com'
+const DESTINO = 'ambuxedev@gmail.com'
 const ASSUNTOS = {
   sugestao: 'Sugestões de melhorias',
   erro: 'Reportar erro',
@@ -6,6 +9,24 @@ const ASSUNTOS = {
   outros: 'Outros',
 }
 const LIMITE_REQUISICAO = 3_100_000
+
+const EXTENSOES = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/gif': 'gif',
+  'image/webp': 'webp',
+  'image/heic': 'heic',
+  'image/heif': 'heif',
+  'image/avif': 'avif',
+  'image/bmp': 'bmp',
+  'image/svg+xml': 'svg',
+}
+
+function nomeDoAnexo(imagem, nome) {
+  const extensao = EXTENSOES[imagem.type] ?? 'png'
+  const base = nome || 'imagem'
+  return /\.[a-z\d]{2,5}$/i.test(base) ? base : `${base}.${extensao}`
+}
 
 function json(status, dados = {}) {
   return Response.json(dados, { status, headers: { 'Cache-Control': 'no-store' } })
@@ -19,8 +40,11 @@ export default {
 
     const tamanho = Number(request.headers.get('content-length'))
     if (!Number.isSafeInteger(tamanho) || tamanho <= 0 || tamanho > LIMITE_REQUISICAO) return json(413)
-    const endpoint = process.env.CONTATO_BASIN_URL?.trim()
-    if (!endpoint || !/^https:\/\/usebasin\.com\/f\/[a-z\d]+$/i.test(endpoint)) return json(503)
+    const chave = process.env.RESEND_API_KEY?.trim()
+    if (!chave?.startsWith('re_')) {
+      console.error('RESEND_API_KEY ausente ou sem o prefixo re_')
+      return json(503)
+    }
 
     let dados
     try {
@@ -58,27 +82,48 @@ export default {
       return json(400)
     }
 
-    const envio = new FormData()
-    if (nome) envio.set('nome', nome.trim())
-    envio.set('assunto', ASSUNTOS[assunto])
-    envio.set('protocolo', id)
-    envio.set('parte', `${parte} de ${total}`)
-    envio.set('mensagem', mensagem ?? 'Imagem em anexo.')
-    envio.set(canal === 'email' ? 'email' : 'whatsapp', resposta)
-    if (origem) envio.set('origem', origem)
-    if (imagem) envio.set('imagem', imagem, imagem.name.replace(/[\x00-\x1f\x7f/\\]/g, '_').slice(0, 240) || 'imagem')
+    const nomeLimpo = nome?.trim()
+    const detalhes = [
+      nomeLimpo && `Nome: ${nomeLimpo}`,
+      `Assunto: ${ASSUNTOS[assunto]}`,
+      `Resposta por ${canal === 'email' ? 'e-mail' : 'WhatsApp'}: ${resposta}`,
+      `Protocolo: ${id}`,
+      `Parte: ${parte} de ${total}`,
+      origem && `Origem: ${origem}`,
+    ].filter(Boolean).join('\n')
+
+    const corpo = {
+      from: `${SITE} <${REMETENTE}>`,
+      to: [DESTINO],
+      subject: `[${SITE} ${id.slice(0, 8)}] ${ASSUNTOS[assunto]}${nomeLimpo ? ` de ${nomeLimpo}` : ''} (${parte}/${total})`,
+      text: `${detalhes}\n\n${mensagem ?? 'Imagem em anexo.'}`,
+    }
+    if (canal === 'email') corpo.reply_to = resposta
+    if (imagem) {
+      corpo.attachments = [{
+        filename: nomeDoAnexo(imagem, imagem.name.replace(/[\x00-\x1f\x7f/\\]/g, '_').slice(0, 240)),
+        content: Buffer.from(await imagem.arrayBuffer()).toString('base64'),
+      }]
+    }
 
     try {
-      const resultado = await fetch(endpoint, {
+      const resultado = await fetch('https://api.resend.com/emails', {
         method: 'POST',
-        headers: { Accept: 'application/json', Origin: new URL(request.url).origin },
-        redirect: 'error',
+        headers: {
+          Authorization: `Bearer ${chave}`,
+          'Content-Type': 'application/json',
+          'Idempotency-Key': `contato/${id}/${parte}`,
+        },
         signal: AbortSignal.timeout(25_000),
-        body: envio,
+        body: JSON.stringify(corpo),
       })
-      if (!resultado.ok) return json(502)
+      if (!resultado.ok) {
+        console.error('Resend recusou o envio', resultado.status, await resultado.text())
+        return json(502)
+      }
       return json(200, { enviado: true })
-    } catch {
+    } catch (erro) {
+      console.error('Falha ao falar com o Resend', erro)
       return json(502)
     }
   },
