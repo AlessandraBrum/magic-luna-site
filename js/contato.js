@@ -10,14 +10,12 @@ if (formulario) {
       mensagemVazia: "Escreva sua mensagem.",
       preparando: "Preparando imagens…",
       anexadas: (n) => (n ? (n === 1 ? "1 imagem anexada." : `${n} imagens anexadas.`) : ""),
-      arquivoInvalido: (nome) => `Não foi possível adicionar ${nome}. Escolha uma imagem de até 3 MB.`,
+      arquivoInvalido: (nome) => `Não foi possível adicionar ${nome}.`,
       remover: "Remover",
       enviar: "Enviar mensagem",
-      continuar: "Continuar envio",
-      enviando: (parte, total) => `Enviando parte ${parte} de ${total}…`,
+      enviando: "Enviando mensagem…",
       sucesso: "Mensagem enviada. A resposta poderá chegar pelo canal que você escolheu.",
       falha: "Não foi possível enviar. Tente novamente em alguns minutos.",
-      parcial: "Parte da mensagem já foi enviada. Use Continuar envio para retomar da última parte.",
       exemplos: {
         sugestao: "Acho que o aplicativo poderia melhorar em...",
         erro: "Encontrei um erro quando tentei...",
@@ -32,14 +30,12 @@ if (formulario) {
       mensagemVazia: "Write your message.",
       preparando: "Preparing images…",
       anexadas: (n) => (n ? (n === 1 ? "1 image attached." : `${n} images attached.`) : ""),
-      arquivoInvalido: (nome) => `Could not add ${nome}. Choose an image up to 3 MB.`,
+      arquivoInvalido: (nome) => `Could not add ${nome}.`,
       remover: "Remove",
       enviar: "Send message",
-      continuar: "Resume sending",
-      enviando: (parte, total) => `Sending part ${parte} of ${total}…`,
+      enviando: "Sending message…",
       sucesso: "Message sent. You can receive a reply through the channel you chose.",
       falha: "Could not send your message. Please try again in a few minutes.",
-      parcial: "Part of your message was already sent. Use Resume sending to continue from the last part.",
       exemplos: {
         sugestao: "I think the app could improve by...",
         erro: "I found a bug when I tried to...",
@@ -50,7 +46,7 @@ if (formulario) {
     },
   };
   const TELEFONE = /^\+[1-9]\d{7,14}$/;
-  const LIMITE_ANEXO = 3_000_000;
+  const ORCAMENTO_ANEXOS = 3_600_000;
   const textos = () => (document.documentElement.lang.startsWith("pt") ? TEXTOS.pt : TEXTOS.en);
 
   const campos = formulario.querySelector(".contato-campos");
@@ -72,8 +68,8 @@ if (formulario) {
   const situacao = formulario.querySelector("#contato-status");
   const alerta = formulario.querySelector("#contato-erro");
 
+  let originais = [];
   let imagens = [];
-  let fila = null;
   let ocupado = false;
   let adicionando = false;
 
@@ -119,6 +115,7 @@ if (formulario) {
 
   function removerAnexo(indice) {
     const botoes = lista.querySelectorAll("button");
+    originais = originais.filter((_, posicao) => posicao !== indice);
     imagens = imagens.filter((_, posicao) => posicao !== indice);
     desenharAnexos();
     const restantes = lista.querySelectorAll("button");
@@ -126,33 +123,47 @@ if (formulario) {
     if (botoes.length) vizinho.focus();
   }
 
-  async function prepararImagem(arquivo) {
-    if (!arquivo.type.startsWith("image/") || !arquivo.size) return;
-    if (arquivo.size <= LIMITE_ANEXO) return arquivo;
-    try {
-      const imagem = await createImageBitmap(arquivo);
-      try {
-        const quadro = document.createElement("canvas");
-        const ctx = quadro.getContext("2d", { alpha: false });
-        if (!ctx) return;
-        for (const larguraMaxima of [1920, 1280, 800]) {
-          const escala = Math.min(1, larguraMaxima / Math.max(imagem.width, imagem.height));
-          quadro.width = Math.max(1, Math.round(imagem.width * escala));
-          quadro.height = Math.max(1, Math.round(imagem.height * escala));
-          ctx.fillStyle = "#fff";
-          ctx.fillRect(0, 0, quadro.width, quadro.height);
-          ctx.drawImage(imagem, 0, 0, quadro.width, quadro.height);
-          const blob = await new Promise((resolve) => quadro.toBlob(resolve, "image/jpeg", 0.84));
-          if (blob && blob.size <= LIMITE_ANEXO) {
-            return new File([blob], arquivo.name.replace(/\.[^.]+$/, "") + ".jpg", { type: blob.type });
+  async function comprimirAnexos(arquivos, limite) {
+    const precisaComprimir = arquivos.reduce((soma, arquivo) => soma + arquivo.size, 0) > limite;
+    const alvo = Math.floor(limite / arquivos.length);
+    const processados = await Promise.all(
+      arquivos.map(async (arquivo) => {
+        if (!arquivo.type.startsWith("image/") || !arquivo.size) return null;
+        if (!precisaComprimir) return arquivo;
+        try {
+          const bitmap = await createImageBitmap(arquivo);
+          try {
+            const quadro = document.createElement("canvas");
+            const ctx = quadro.getContext("2d", { alpha: false });
+            if (!ctx) return null;
+            for (const tamanhoMaximo of [1920, 1280, 960, 720, 480]) {
+              const escala = Math.min(1, tamanhoMaximo / Math.max(bitmap.width, bitmap.height));
+              quadro.width = Math.max(1, Math.round(bitmap.width * escala));
+              quadro.height = Math.max(1, Math.round(bitmap.height * escala));
+              ctx.fillStyle = "#fff";
+              ctx.fillRect(0, 0, quadro.width, quadro.height);
+              ctx.drawImage(bitmap, 0, 0, quadro.width, quadro.height);
+              for (const qualidade of [0.85, 0.7, 0.55, 0.4]) {
+                const blob = await new Promise((resolve) => quadro.toBlob(resolve, "image/jpeg", qualidade));
+                if (blob && blob.size <= alvo) {
+                  const nome = arquivo.name.replace(/\.[^.]+$/, "") + ".jpg";
+                  return new File([blob], nome, { type: blob.type || "image/jpeg" });
+                }
+              }
+            }
+          } finally {
+            bitmap.close();
           }
+        } catch {
+          // Mantém o arquivo fora dos anexos: a compressão não foi possível.
         }
-      } finally {
-        imagem.close();
-      }
-    } catch {
-      return;
-    }
+        return null;
+      }),
+    );
+    return {
+      imagens: processados.filter(Boolean),
+      falhas: arquivos.filter((_, indice) => !processados[indice]),
+    };
   }
 
   seletor.addEventListener("change", async () => {
@@ -162,16 +173,16 @@ if (formulario) {
     adicionando = true;
     seletor.disabled = true;
     desenharAnexos();
-    const processados = await Promise.all(novos.map(prepararImagem));
-    imagens = [...imagens, ...processados.filter(Boolean)];
+    originais = [...originais, ...novos];
+    const { imagens: processadas, falhas } = await comprimirAnexos(originais, ORCAMENTO_ANEXOS);
+    originais = originais.filter((arquivo) => !falhas.includes(arquivo));
+    imagens = processadas;
     errosAnexos.replaceChildren(
-      ...novos
-        .filter((_, indice) => !processados[indice])
-        .map((arquivo) => {
-          const linha = document.createElement("p");
-          linha.textContent = textos().arquivoInvalido(arquivo.name);
-          return linha;
-        }),
+      ...falhas.map((arquivo) => {
+        const linha = document.createElement("p");
+        linha.textContent = textos().arquivoInvalido(arquivo.name);
+        return linha;
+      }),
     );
     adicionando = false;
     seletor.disabled = false;
@@ -196,59 +207,46 @@ if (formulario) {
     evento.preventDefault();
     if (ocupado || adicionando) return;
 
-    if (!fila) {
-      const nomeInformado = nome.value.trim();
-      if (!nomeInformado) {
-        nome.setCustomValidity(textos().nomeVazio);
-        nome.reportValidity();
-        return;
-      }
-      const canal = canalAtual();
-      const numero = telefone.value.trim().replace(/[\s().-]/g, "");
-      if (canal === "whatsapp" && !TELEFONE.test(numero)) {
-        telefone.setCustomValidity(textos().telefoneInvalido);
-        telefone.reportValidity();
-        return;
-      }
-      const texto = mensagem.value.trim();
-      if (!texto || !assunto.value) return;
-      const partesTexto = texto.match(/[\s\S]{1,50000}/gu) ?? [];
-      const id = crypto.randomUUID();
-      const total = partesTexto.length + imagens.length;
-      const partes = [...partesTexto, ...imagens].map((conteudo, indice) => {
-        const parte = new FormData();
-        parte.set("nome", nomeInformado);
-        parte.set("assunto", assunto.value);
-        parte.set("canal", canal);
-        parte.set("resposta", canal === "whatsapp" ? numero : email.value.trim());
-        parte.set("origem", "");
-        parte.set("id", id);
-        parte.set("parte", String(indice + 1));
-        parte.set("total", String(total));
-        if (typeof conteudo === "string") parte.set("mensagem", conteudo);
-        else parte.set("imagem", conteudo);
-        return parte;
-      });
-      fila = { partes, proxima: 0 };
+    const nomeInformado = nome.value.trim();
+    if (!nomeInformado) {
+      nome.setCustomValidity(textos().nomeVazio);
+      nome.reportValidity();
+      return;
     }
+    const canal = canalAtual();
+    const numero = telefone.value.trim().replace(/[\s().-]/g, "");
+    if (canal === "whatsapp" && !TELEFONE.test(numero)) {
+      telefone.setCustomValidity(textos().telefoneInvalido);
+      telefone.reportValidity();
+      return;
+    }
+    const texto = mensagem.value.trim();
+    if (!texto || !assunto.value) return;
 
-    const envio = fila;
+    const dados = new FormData();
+    dados.set("nome", nomeInformado);
+    dados.set("assunto", assunto.value);
+    dados.set("canal", canal);
+    dados.set("resposta", canal === "whatsapp" ? numero : email.value.trim());
+    dados.set("origem", "");
+    dados.set("id", crypto.randomUUID());
+    dados.set("site", "");
+    dados.set("mensagem", texto);
+    imagens.forEach((imagem) => dados.append("attachments[]", imagem, imagem.name));
+
     ocupado = true;
     bloquear(true);
     alerta.textContent = "";
+    situacao.textContent = textos().enviando;
     try {
-      while (envio.proxima < envio.partes.length) {
-        situacao.textContent = textos().enviando(envio.proxima + 1, envio.partes.length);
-        const resultado = await fetch("/api/contato", {
-          method: "POST",
-          body: envio.partes[envio.proxima],
-          signal: AbortSignal.timeout(45_000),
-        });
-        if (!resultado.ok || (await resultado.json()).enviado !== true) throw new Error();
-        envio.proxima += 1;
-      }
-      fila = null;
+      const resultado = await fetch("/api/contato", {
+        method: "POST",
+        body: dados,
+        signal: AbortSignal.timeout(45_000),
+      });
+      if (!resultado.ok || (await resultado.json()).enviado !== true) throw new Error();
       formulario.reset();
+      originais = [];
       imagens = [];
       errosAnexos.replaceChildren();
       atualizarCanal();
@@ -258,13 +256,10 @@ if (formulario) {
       bloquear(false);
       situacao.textContent = textos().sucesso;
     } catch {
-      const houveEnvio = envio.proxima > 0;
-      if (!houveEnvio) fila = null;
       situacao.textContent = "";
-      alerta.textContent = houveEnvio ? textos().parcial : textos().falha;
-      rotulo.textContent = houveEnvio ? textos().continuar : textos().enviar;
-      campos.disabled = houveEnvio;
-      botao.setAttribute("aria-disabled", "false");
+      alerta.textContent = textos().falha;
+      rotulo.textContent = textos().enviar;
+      bloquear(false);
     } finally {
       ocupado = false;
     }

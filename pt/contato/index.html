@@ -188,7 +188,7 @@
             <div class="campo">
               <label class="campo-rotulo" for="contato-mensagem">Mensagem</label>
               <div class="contato-mensagem">
-                <textarea class="campo-entrada" id="contato-mensagem" name="mensagem" rows="6" required></textarea>
+                <textarea class="campo-entrada" id="contato-mensagem" name="mensagem" rows="6" maxlength="100000" required></textarea>
                 <span class="contato-exemplo" id="contato-exemplo" hidden></span>
               </div>
             </div>
@@ -212,7 +212,7 @@
 
             <div class="campo">
               <label class="campo-rotulo" for="contato-imagens">Imagens (opcional)</label>
-              <p class="campo-legenda" id="contato-imagens-dica">Você pode escolher várias imagens e voltar para adicionar mais. Confira os anexos antes de enviar. Imagens grandes são reduzidas para caber no envio de até 3 MB por arquivo.</p>
+              <p class="campo-legenda" id="contato-imagens-dica">Você pode escolher várias imagens e voltar para adicionar mais. Confira os anexos antes de enviar. Imagens grandes são comprimidas automaticamente para caber no limite de envio.</p>
               <input class="campo-entrada" id="contato-imagens" type="file" accept="image/*" multiple aria-describedby="contato-imagens-dica">
               <p class="campo-legenda" id="contato-anexos-status" role="status"></p>
               <div id="contato-anexos-erros" role="alert"></div>

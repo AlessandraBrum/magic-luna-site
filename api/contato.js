@@ -5,10 +5,17 @@ const ASSUNTOS = {
   parcerias: 'Parcerias',
   outros: 'Outros',
 }
-const LIMITE_REQUISICAO = 3_100_000
+const LIMITE_REQUISICAO = 4_200_000
+const LIMITE_ANEXO = 3_600_000
+const LIMITE_TOTAL_ANEXOS = 3_700_000
+const MAX_ANEXOS = 20
 
 function json(status, dados = {}) {
   return Response.json(dados, { status, headers: { 'Cache-Control': 'no-store' } })
+}
+
+function nomeSeguro(nome) {
+  return nome.replace(/[\x00-\x1f\x7f/\\]/g, '_').slice(0, 240)
 }
 
 export default {
@@ -36,37 +43,38 @@ export default {
     const canal = dados.get('canal')
     const resposta = dados.get('resposta')
     const mensagem = dados.get('mensagem')
-    const imagem = dados.get('imagem')
+    const anexos = dados.getAll('attachments[]')
     const origem = dados.get('origem')
     const id = dados.get('id')
-    const parte = Number(dados.get('parte'))
-    const total = Number(dados.get('total'))
+    const site = dados.get('site')
     if (typeof assunto !== 'string' || !Object.hasOwn(ASSUNTOS, assunto) ||
       typeof resposta !== 'string' || resposta.length > 254 ||
       typeof origem !== 'string' || origem.length > 4000 ||
       typeof id !== 'string' || !/^[a-f\d-]{36}$/.test(id) ||
-      !Number.isSafeInteger(parte) || !Number.isSafeInteger(total) || parte < 1 || parte > total) return json(400)
+      (site !== null && site !== '')) return json(400)
     if (canal === 'email') {
       if (!/^[^\s@<>,;]+@[^\s@<>,;]+\.[^\s@<>,;]+$/.test(resposta)) return json(400)
     } else if (canal !== 'whatsapp' || !/^\+[1-9]\d{7,14}$/.test(resposta)) {
       return json(400)
     }
-    if (imagem !== null) {
-      if (mensagem !== null || !(imagem instanceof File) || !imagem.type.startsWith('image/') ||
-        imagem.size === 0 || imagem.size > 3_000_000) return json(400)
-    } else if (typeof mensagem !== 'string' || mensagem.length === 0 || mensagem.length > 100_000) {
-      return json(400)
+    if (typeof mensagem !== 'string' || mensagem.length === 0 || mensagem.length > 100_000) return json(400)
+    if (!Array.isArray(anexos) || anexos.length > MAX_ANEXOS) return json(400)
+    let somaAnexos = 0
+    for (const anexo of anexos) {
+      if (!(anexo instanceof File) || !anexo.type.startsWith('image/') ||
+        anexo.size === 0 || anexo.size > LIMITE_ANEXO) return json(400)
+      somaAnexos += anexo.size
     }
+    if (somaAnexos > LIMITE_TOTAL_ANEXOS) return json(400)
 
     const envio = new FormData()
     if (nome) envio.set('nome', nome.trim())
     envio.set('assunto', ASSUNTOS[assunto])
     envio.set('protocolo', id)
-    envio.set('parte', `${parte} de ${total}`)
-    envio.set('mensagem', mensagem ?? 'Imagem em anexo.')
+    envio.set('mensagem', mensagem)
     envio.set(canal === 'email' ? 'email' : 'whatsapp', resposta)
     if (origem) envio.set('origem', origem)
-    if (imagem) envio.set('imagem', imagem, imagem.name.replace(/[\x00-\x1f\x7f/\\]/g, '_').slice(0, 240) || 'imagem')
+    anexos.forEach((anexo, indice) => envio.append('attachments[]', anexo, nomeSeguro(anexo.name) || `imagem-${indice + 1}.jpg`))
 
     try {
       const resultado = await fetch(endpoint, {
